@@ -1,0 +1,35 @@
+
+CREATE TABLE IF NOT EXISTS auth_user (
+    id SERIAL PRIMARY KEY,
+    password VARCHAR(128) NOT NULL,
+    last_login TIMESTAMPTZ,
+    is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
+    username VARCHAR(150) UNIQUE NOT NULL,
+    first_name VARCHAR(30),
+    last_name VARCHAR(30),
+    email VARCHAR(254) UNIQUE NOT NULL,
+    is_staff BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    date_joined TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS blog_post (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    image VARCHAR(),
+    date_posted TIMESTAMPTZ DEFAULT NOW(),
+    author_id INTEGER NOT NULL,
+    CONSTRAINT fk_author FOREIGN KEY (author_id)
+        REFERENCES auth_user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS users_profile (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER UNIQUE NOT NULL,
+    image VARCHAR(255) DEFAULT 'profile_pics/default.jpg',
+    CONSTRAINT fk_user FOREIGN KEY (user_id)
+        REFERENCES auth_user(id) ON DELETE CASCADE
+);
+
+ALTER TABLE blog_post DROP COLUMN content;
+ALTER TABLE blog_post ADD COLUMN image VARCHAR(255);
