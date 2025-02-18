@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
+
 def logout_view(request):
     logout(request)
     return render(request, 'users/logout.html')
