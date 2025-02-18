@@ -6,6 +6,11 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('search-users/', views.search_users, name='search-users'),
+    path('friends/', views.friends_list, name='friends-list'),
+    path('manage-friends/', views.manage_friends, name='manage-friends'),
+    path('post/<int:post_id>/like/', views.like_post, name='like-post'),
+    path('post/<int:post_id>/comments/', views.post_comments, name='post-comments'),
     path('user/<str:username>/', views.user_posts, name='user-posts'),
     path('post/<int:post_id>/', views.post_detail, name='post-detail'),
     path('post/new/', views.create_post, name='post-create'),

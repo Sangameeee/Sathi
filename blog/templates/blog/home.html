@@ -1,22 +1,35 @@
 {% extends "blog/base.html" %}
 {% block content %}
     {% for post in posts %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ MEDIA_URL }}{{ post.author.image }}">
-            <div class="media-body">
+        <article class="media content-section mb-4">
+            <img class="rounded-circle article-img" src="{{ MEDIA_URL }}{{ post.author.image }}" alt="{{ post.author.username }}">
+            <div class="media-body ml-3">
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
                     <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                <h2>
+                    <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                </h2>
                 {% if post.image %}
-                  <img src="{{ MEDIA_URL }}{{ post.image }}" alt="{{ post.title }}" class="img-fluid">
+                    <img src="{{ MEDIA_URL }}{{ post.image }}" alt="{{ post.title }}" class="img-fluid mb-2">
                 {% else %}
-                  <p>No image attached.</p>
+                    <p>No image attached.</p>
                 {% endif %}
+                
+                <!-- New Buttons for Likes and Comments -->
+                <div class="d-flex mt-2">
+                    <button class="btn btn-outline-primary mr-2 like-btn" data-post-id="{{ post.id }}">
+                        Likes ({{ post.like_count }})
+                    </button>
+                    <a href="{% url 'post-detail' post.id %}" class="btn btn-outline-secondary">
+                        Comments ({{ post.comment_count }})
+                    </a>
+                </div>
             </div>
         </article>
     {% endfor %}
+
     {% if is_paginated %}
         {% if page_obj.has_previous %}
             <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
@@ -36,4 +49,31 @@
             <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
     {% endif %}
+    
+    <!-- JavaScript for handling the like button via AJAX -->
+    <script>
+      // Get all like buttons on the page
+      document.querySelectorAll('.like-btn').forEach(function(button) {
+          button.addEventListener('click', function() {
+              var postId = this.getAttribute('data-post-id');
+              fetch("{% url 'like-post' 0 %}".replace('0', postId), {
+                  method: 'POST',
+                  headers: {
+                      'X-CSRFToken': '{{ csrf_token }}'
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if(data.success){
+                      // Parse the current count from the button text
+                      let currentText = button.innerText;
+                      let match = currentText.match(/\d+/);
+                      let count = match ? parseInt(match[0]) : 0;
+                      count += 1;
+                      button.innerText = "Likes (" + count + ")";
+                  }
+              });
+          });
+      });
+    </script>
 {% endblock content %}
