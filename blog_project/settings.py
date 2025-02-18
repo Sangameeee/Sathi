@@ -84,20 +84,25 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#remove comment to run local
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'your database name', 
+#         'USER': 'database user',   
+#         'PASSWORD': 'database password',
+#         'HOST': 'localhost',        
+#         'PORT': '5432',              
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sathi_db', 
-        'USER': 'postgres',   
-        'PASSWORD': 'sangamsucks',
-        'HOST': 'localhost',        
-        'PORT': '5432',              
-    }
+    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
 
-# database_url = os.environ.get("DATABASE_URL")
-# DATABASES['default'] = dj_database_url.parse(database_url)
-# print(f"Database URL: {database_url}")
+database_url = os.environ.get("DATABASE_URL")
+print(f"Database URL: {database_url}")
 
 AUTHENTICATION_BACKENDS = [
     'users.auth_backend.CustomAuthBackend',
