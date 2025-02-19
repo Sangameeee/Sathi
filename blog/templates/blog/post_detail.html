@@ -30,7 +30,7 @@
         <ul class="list-group mb-3">
           {% for comment in comments %}
             <li class="list-group-item">
-              <strong>{{ comment.username }}</strong> said: {{ comment.content }}
+              <strong>{{ comment.username }}</strong> : {{ comment.content }}
               <br>
               <small class="text-muted">{{ comment.created_at|date:"F d, Y H:i" }}</small>
             </li>
