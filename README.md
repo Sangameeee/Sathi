@@ -179,8 +179,8 @@ for support, send mail at: sangamparajuli99@gmail.com
 Site link = <a href = "https://justwriteit.onrender.com/">Sathi</a>
 Screenshot of mobile and laptop is shown below
 **Mobile View:**
-![Mobile Screenshot](https://github.com/Sangameeee/Sathi/issues/1#issue-2865049199)
-![Mobile Screenshot](desktop ss.png)
+![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/mobile%20ss.png?raw=true)
+![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/desktop%20ss.png?raw=true)
 
 
 ## 12. Future Enhancements
