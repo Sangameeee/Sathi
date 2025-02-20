@@ -1,4 +1,4 @@
-# <a href="">Sathi:A  Minimalist Soical Network</a>
+# <a href="">Sathi:A  Minimalist Social Network</a>
 ## Table of Contents 
 - [Introduction](#1-introduction) 
 -  [Features](#2-features) 
@@ -178,8 +178,9 @@ windows:
 ## 11. Overview
 **Site link = <a href = "https://justwriteit.onrender.com/">Sathi</a><br>**
 Screenshot of mobile and laptop is shown below:<br>
-**Mobile View:**
+**Mobile View:** <br>
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/mobile%20ss.png?raw=true)
+<br>**Desktop View:** <br>
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/desktop%20ss.png?raw=true)
 
 
