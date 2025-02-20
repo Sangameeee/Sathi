@@ -1,7 +1,19 @@
 # <a href="">Sathi:A  Minimalist Soical Network</a>
-
-## 1. Overview:
-Sathi is a  minimalistic family and friend focused social network designed to prioritize meaningful connections by focusing exclusively on friends,family and people near and dear to users.Users share updates, photos, views and comments without any algorithmic feed or irrelevent content like reels, videos, Influencers in their feed.Built to foster genuine and relvent interactions without wasting time in irrelevent contents.
+## Table of Contents 
+- [Introduction](#1-introduction) 
+-  [Features](#2-features) 
+- [Technological Stack](#3-technological-stack) 
+- [Frontend Implementation](#4-frontend-implementation) 
+-  [Backend Implementation](#5-backend-implementation)
+-   [Installation & Setup](#6-installation--setup) 
+- [Deployment](#7-deployment) 
+-  [Contribution](#8-contribution) 
+-  [Contact](#9-contact) 
+-  [Troubleshooting](#10-troubleshooting) 
+-  [Overview](#11-overview) 
+-  [Future Enhancements](#12-future-enhancements)
+## 1. Introduction:
+<a href = "https://justwriteit.onrender.com/">Sathi</a> is a  minimalistic family and friend focused social network designed to prioritize meaningful connections by focusing exclusively on friends,family and people near and dear to users.Users share updates, photos, views and comments without any algorithmic feed or irrelevent content like reels, videos, Influencers in their feed.Built to foster genuine and relvent interactions without wasting time in irrelevent contents.
 
 ## 2. Features:
 - **Responsive Design:**:Optimized for both desktop and mobile devices.
@@ -18,7 +30,8 @@ Sathi is a  minimalistic family and friend focused social network designed to pr
 
 ## 4. Frontend Implementation
 - **Responsive Design:** Usage of **Bootstrap5** and css enables the site to be responsive according to screen and works on all kinds of screen desktop/mobile.
-## 5. Backend  Implementation(Django)
+## 5. Backend  Implementation
+Used Django to implement backend to connect with database make changes, authorize users,etc
 **Database: PostgreSQl**
 - PostgreSQL is used for its scalability, reliability and gave easier support for website hosting.
 - Hosted on **supabase**, for easy database management and real-time capabilities.
@@ -145,3 +158,32 @@ windows:
 	```python
 	python manage.py runserver
 	``` 
+## 7. Deployment
+- Deployed using  Render
+- Used whitenoise for static files 
+- In settings.py configure ``DEBUG=FALSE``
+
+## 8. Contribution
+- Fork the repository 
+- Create a new branch 
+- Submit pull requests with clear descriptions
+
+## 9. Contact
+for support, send mail at: sangamparajuli99@gmail.com
+
+## 10. Troubleshooting 
+- **Static files not loading:** Run ``python manage.py collectstatic``
+- **Database connection issues:** Check if .env file is properly sending data and verify credentials in ``settings.py``
+
+## 11. Overview
+Site link = <a href = "https://justwriteit.onrender.com/">Sathi</a>
+Screenshot of mobile and laptop is shown below
+**Mobile View:**
+![Mobile Screenshot](mobile ss.png)
+![Mobile Screenshot](desktop ss.png)
+
+
+## 12. Future Enhancements
+- Direct messaging between users
+- Photo albums/collages 
+- Real time notifications
