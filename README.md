@@ -169,15 +169,15 @@ windows:
 - Submit pull requests with clear descriptions
 
 ## 9. Contact
-for support, send mail at: sangamparajuli99@gmail.com
-
+- for support, send mail at: sangamparajuli99@gmail.com
+- Send message at:<a href = "https://www.sangamparajuli.com.np/contactme">Message</a>
 ## 10. Troubleshooting 
 - **Static files not loading:** Run ``python manage.py collectstatic``
 - **Database connection issues:** Check if .env file is properly sending data and verify credentials in ``settings.py``
 
 ## 11. Overview
-Site link = <a href = "https://justwriteit.onrender.com/">Sathi</a>
-Screenshot of mobile and laptop is shown below
+**Site link = <a href = "https://justwriteit.onrender.com/">Sathi</a><br>**
+Screenshot of mobile and laptop is shown below:<br>
 **Mobile View:**
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/mobile%20ss.png?raw=true)
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/desktop%20ss.png?raw=true)
