@@ -185,6 +185,8 @@ Screenshot of mobile and laptop is shown below:<br>
 
 
 ## 12. Future Enhancements
+- Error fixes and more smooth transitions
+- Image privacy and image upload in cloud
 - Direct messaging between users
 - Photo albums/collages 
 - Real time notifications
