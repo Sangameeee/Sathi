@@ -180,7 +180,7 @@ windows:
 Screenshot of mobile and laptop is shown below:<br>
 **Mobile View:** <br>
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/mobile%20ss.png?raw=true)
-<br>**Desktop View:** <br>
+<br><br>**Desktop View:** <br>
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/desktop%20ss.png?raw=true)
 
 
