@@ -13,7 +13,7 @@
 -  [Overview](#11-overview) 
 -  [Future Enhancements](#12-future-enhancements)
 ## 1. Introduction:
-<a href = "https://justwriteit.onrender.com/">Sathi</a> is a  minimalistic family and friend focused social network designed to prioritize meaningful connections by focusing exclusively on friends,family and people near and dear to users.Users share updates, photos, views and comments without any algorithmic feed or irrelevent content like reels, videos, Influencers in their feed.Built to foster genuine and relevent interactions without wasting time in irrelevent contents.
+<a href = "https://justwriteit.onrender.com/">Sathi</a> is a  minimalistic family and friend focused social network designed to prioritize meaningful connections by focusing exclusively on friends,family and people near and dear to users.Users share updates, photos, views and comments without any algorithmic feed or irrelevant content like reels, videos, Influencers in their feed.Built to foster genuine and relevant interactions without wasting time in irrelevant contents.
 
 ## 2. Features:
 - **Responsive Design:**:Optimized for both desktop and mobile devices.
