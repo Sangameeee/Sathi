@@ -16,14 +16,11 @@ pipeline {
             }
         }
         
-        stage('Build') {
+       stage('Build') {
             steps {
-                echo '🏗️ Building Docker image...'
+                echo "🏗️ Building Docker image..."
                 script {
-                    sh """
-                        docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                        docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
-                    """
+                    docker.build("sancheck30/sathi:1", ".")
                 }
             }
         }
