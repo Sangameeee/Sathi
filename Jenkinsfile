@@ -2,9 +2,14 @@ pipeline {
     agent any
     
     environment {
-        // Docker Hub details
-        DOCKER_IMAGE = "sancheck30/sathi"
-        DOCKER_TAG = "${BUILD_NUMBER}"
+        // Docker connection settings
+        DOCKER_HOST = 'unix:///var/run/docker.sock'
+        DOCKER_TLS_VERIFY = ''
+        DOCKER_CERT_PATH = ''
+        
+        // Docker image details
+        DOCKER_IMAGE = 'sancheck30/sathi'
+        DOCKER_TAG = '1'
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'
     }
     
@@ -16,11 +21,11 @@ pipeline {
             }
         }
         
-       stage('Build') {
+        stage('Build') {
             steps {
                 echo "🏗️ Building Docker image..."
                 script {
-                    docker.build("sancheck30/sathi:1", ".")
+                    docker.build("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}", ".")
                 }
             }
         }
@@ -29,32 +34,32 @@ pipeline {
             steps {
                 echo '🧪 Testing Docker image...'
                 script {
-                    sh """
-                        # Quick smoke test - check if image was built
-                        docker images | grep ${DOCKER_IMAGE}
-                        
-                        # Test container starts successfully
-                        docker run --rm -d \
-                          --name test-container \
-                          -e DEBUG=True \
-                          -e S_KEY=test-key \
-                          -e DATABASE_URL=sqlite:///test.db \
-                          ${DOCKER_IMAGE}:${DOCKER_TAG}
-                        
-                        # Wait a bit for startup
-                        sleep 10
-                        
-                        # Check if container is still running
-                        docker ps | grep test-container || (echo "Container failed to start" && exit 1)
-                        
-                        # Show logs
-                        docker logs test-container
-                        
-                        # Stop test container
-                        docker stop test-container
-                        
-                        echo "✅ Container starts successfully"
-                    """
+                    def testContainer = docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").run(
+                        '-e DEBUG=True ' +
+                        '-e S_KEY=test-key ' +
+                        '-e DATABASE_URL=sqlite:///test.db'
+                    )
+                    
+                    // Wait for container to initialize
+                    sleep 5
+                    
+                    // Get container logs
+                    sh "docker logs ${testContainer.id}"
+                    
+                    // Check if container is healthy
+                    def containerStatus = sh(
+                        script: "docker inspect ${testContainer.id} --format='{{.State.Running}}'",
+                        returnStdout: true
+                    ).trim()
+                    
+                    if (containerStatus != "true") {
+                        error("Container failed to start properly")
+                    }
+                    
+                    // Clean up test container
+                    testContainer.stop()
+                    
+                    echo "✅ Container starts successfully"
                 }
             }
         }
@@ -66,17 +71,13 @@ pipeline {
             steps {
                 echo '📤 Pushing to Docker Hub...'
                 script {
-                    withCredentials([usernamePassword(
-                        credentialsId: "${DOCKER_CREDENTIALS_ID}",
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )]) {
-                        sh """
-                            echo \${DOCKER_PASS} | docker login -u \${DOCKER_USER} --password-stdin
-                            docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            docker push ${DOCKER_IMAGE}:latest
-                            docker logout
-                        """
+                    docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_CREDENTIALS_ID) {
+                        def image = docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}")
+                        image.push()
+                        
+                        // Also push as latest
+                        sh "docker tag ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} ${env.DOCKER_IMAGE}:latest"
+                        docker.image("${env.DOCKER_IMAGE}:latest").push()
                     }
                 }
             }
@@ -88,8 +89,8 @@ pipeline {
             }
             steps {
                 echo '🚀 Deployment Info'
-                echo "✅ Image pushed: ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                echo "To deploy, run: docker pull ${DOCKER_IMAGE}:latest && docker-compose up -d"
+                echo "✅ Image pushed: ${env.DOCKER_IMAGE}:${env.DOCKER_TAG}"
+                echo "To deploy, run: docker pull ${env.DOCKER_IMAGE}:latest && docker-compose up -d"
             }
         }
     }
@@ -97,7 +98,7 @@ pipeline {
     post {
         success {
             echo '✅ Pipeline completed successfully!'
-            echo "Built and pushed: ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            echo "Built and pushed: ${env.DOCKER_IMAGE}:${env.DOCKER_TAG}"
         }
         failure {
             echo '❌ Pipeline failed! Check logs above.'
