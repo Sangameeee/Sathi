@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: sathi-web
+    command: gunicorn blog_project.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 60 --reload
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - DEBUG=${DEBUG:-False}
+      - S_KEY=${S_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - GMAIL_ID=${GMAIL_ID}
+      - GMAIL_PASS=${GMAIL_PASS}
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - sathi-network
+    restart: unless-stopped
+  
+
+  redis:
+    image: redis:alpine
+    container_name: sathi-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - sathi-network
+    restart: unless-stopped
+  
+
+volumes:
+  static_volume:
+    driver: local
+  media_volume:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  sathi-network:
+    name: sathi-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
