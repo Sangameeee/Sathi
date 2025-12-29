@@ -2,9 +2,10 @@ pipeline {
     agent any
     
     environment {
-        // Docker Host configuration
+        // Docker Host configuration - UNSET certificate paths
         DOCKER_HOST = 'tcp://172.22.0.2:2375'
-        DOCKER_TLS_VERIFY = '0'  // Disable TLS verification for non-secure connection
+        DOCKER_TLS_VERIFY = ''  // Empty string to completely disable
+        DOCKER_CERT_PATH = ''   // Empty to prevent cert lookup
         
         // Docker image details
         DOCKER_IMAGE = 'sancheck30/sathi'
@@ -25,8 +26,9 @@ pipeline {
                 echo "🏗️ Building Docker image..."
                 script {
                     sh """
+                        unset DOCKER_TLS_VERIFY
+                        unset DOCKER_CERT_PATH
                         export DOCKER_HOST=${env.DOCKER_HOST}
-                        export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
                         docker build -t ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} .
                     """
                 }
@@ -38,8 +40,9 @@ pipeline {
                 echo '🧪 Testing Docker image...'
                 script {
                     sh """
+                        unset DOCKER_TLS_VERIFY
+                        unset DOCKER_CERT_PATH
                         export DOCKER_HOST=${env.DOCKER_HOST}
-                        export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
                         
                         docker run -d --name test-container \
                             -e DEBUG=True \
@@ -75,8 +78,9 @@ pipeline {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_CREDENTIALS_ID) {
                         sh """
+                            unset DOCKER_TLS_VERIFY
+                            unset DOCKER_CERT_PATH
                             export DOCKER_HOST=${env.DOCKER_HOST}
-                            export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
                             
                             docker push ${env.DOCKER_IMAGE}:${env.DOCKER_TAG}
                             docker tag ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} ${env.DOCKER_IMAGE}:latest
@@ -110,8 +114,9 @@ pipeline {
         always {
             echo '🧹 Cleaning up...'
             sh """
+                unset DOCKER_TLS_VERIFY
+                unset DOCKER_CERT_PATH
                 export DOCKER_HOST=${env.DOCKER_HOST}
-                export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
                 docker stop test-container 2>/dev/null || true
                 docker rm test-container 2>/dev/null || true
             """
