@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Docker Host configuration - UNSET certificate paths
-        DOCKER_HOST = 'tcp://172.22.0.2:2375'
+        DOCKER_HOST = '' //fill it as your host
         DOCKER_TLS_VERIFY = ''  // Empty string to completely disable
         DOCKER_CERT_PATH = ''   // Empty to prevent cert lookup
         
