@@ -2,6 +2,9 @@ pipeline {
     agent any
     
     environment {
+        // Docker Host configuration
+        DOCKER_HOST = 'tcp://172.22.0.2:2375'
+        DOCKER_TLS_VERIFY = '0'  // Disable TLS verification for non-secure connection
         
         // Docker image details
         DOCKER_IMAGE = 'sancheck30/sathi'
@@ -21,7 +24,11 @@ pipeline {
             steps {
                 echo "🏗️ Building Docker image..."
                 script {
-                    sh "docker build -t ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} ."
+                    sh """
+                        export DOCKER_HOST=${env.DOCKER_HOST}
+                        export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
+                        docker build -t ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} .
+                    """
                 }
             }
         }
@@ -31,6 +38,9 @@ pipeline {
                 echo '🧪 Testing Docker image...'
                 script {
                     sh """
+                        export DOCKER_HOST=${env.DOCKER_HOST}
+                        export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
+                        
                         docker run -d --name test-container \
                             -e DEBUG=True \
                             -e S_KEY=test-key \
@@ -65,6 +75,9 @@ pipeline {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_CREDENTIALS_ID) {
                         sh """
+                            export DOCKER_HOST=${env.DOCKER_HOST}
+                            export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
+                            
                             docker push ${env.DOCKER_IMAGE}:${env.DOCKER_TAG}
                             docker tag ${env.DOCKER_IMAGE}:${env.DOCKER_TAG} ${env.DOCKER_IMAGE}:latest
                             docker push ${env.DOCKER_IMAGE}:latest
@@ -97,6 +110,8 @@ pipeline {
         always {
             echo '🧹 Cleaning up...'
             sh """
+                export DOCKER_HOST=${env.DOCKER_HOST}
+                export DOCKER_TLS_VERIFY=${env.DOCKER_TLS_VERIFY}
                 docker stop test-container 2>/dev/null || true
                 docker rm test-container 2>/dev/null || true
             """
