@@ -162,7 +162,7 @@ windows:
 
 ## 7. Installation With Docker 
 1. Create a .env file as before given in step 6
-2. Create a database by following earlier space
+2. Create a database by following earlier steps
 3. Build and Start Containers:
 	``docker compose up -d --build``
 4. Verify containers are running:
