@@ -2,8 +2,6 @@ pipeline {
     agent any
     
     environment {
-        // Use Unix socket for Docker connection
-        DOCKER_HOST = 'unix:///var/run/docker.sock'
         
         // Docker image details
         DOCKER_IMAGE = 'sancheck30/sathi'
