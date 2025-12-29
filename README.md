@@ -6,12 +6,13 @@
 - [Frontend Implementation](#4-frontend-implementation) 
 -  [Backend Implementation](#5-backend-implementation)
 -   [Installation & Setup](#6-installation--setup) 
-- [Deployment](#7-deployment) 
--  [Contribution](#8-contribution) 
--  [Contact](#9-contact) 
--  [Troubleshooting](#10-troubleshooting) 
--  [Overview](#11-overview) 
--  [Future Enhancements](#12-future-enhancements)
+- [Installation With Docker](#7-Installation-With-Docker )
+- [Deployment](#8-deployment) 
+-  [Contribution](#9-contribution) 
+-  [Contact](#10-contact) 
+-  [Troubleshooting](#11-troubleshooting) 
+-  [Overview](#12-overview) 
+-  [Future Enhancements](#13-future-enhancements)
 ## 1. Introduction:
 <a href = "https://justwriteit.onrender.com/">Sathi</a> is a  minimalistic family and friend focused social network designed to prioritize meaningful connections by focusing exclusively on friends,family and people near and dear to users.Users share updates, photos, views and comments without any algorithmic feed or irrelevant content like reels, videos, Influencers in their feed.Built to foster genuine and relevant interactions without wasting time in irrelevant contents.
 
@@ -157,25 +158,40 @@ windows:
 9. Start server:<br>
 	```python
 	python manage.py runserver
-	``` 
-## 7. Deployment
+	```
+
+## 7. Installation With Docker 
+1. Create a .env file as before given in step 6
+2. Create a database by following earlier space
+3. Build and Start Containers:
+	``docker compose up -d --build``
+4. Verify containers are running:
+	``docker compose ps``
+5. Access the app on local device:
+	``http://localhost:8000``
+6. Stop containers:
+	``docker compose down``
+
+
+
+## 8. Deployment
 - Deployed using  Render
 - Used whitenoise for static files 
 - In settings.py configure ``DEBUG=FALSE``
 
-## 8. Contribution
+## 9. Contribution
 - Fork the repository 
 - Create a new branch 
 - Submit pull requests with clear descriptions
 
-## 9. Contact
+## 10. Contact
 - for support, send mail at: sangamparajuli99@gmail.com
 - Send message at:<a href = "https://www.sangamparajuli.com.np/contactme">Message</a>
-## 10. Troubleshooting 
+## 11. Troubleshooting 
 - **Static files not loading:** Run ``python manage.py collectstatic``
 - **Database connection issues:** Check if .env file is properly sending data and verify credentials in ``settings.py``
 
-## 11. Overview
+## 12. Overview
 **Site link = <a href = "https://justwriteit.onrender.com/">Sathi</a><br>**
 Screenshot of mobile and laptop is shown below:<br>
 **Mobile View:** <br>
@@ -184,9 +200,10 @@ Screenshot of mobile and laptop is shown below:<br>
 ![Mobile Screenshot](https://github.com/Sangameeee/Sathi/blob/main/desktop%20ss.png?raw=true)
 
 
-## 12. Future Enhancements
+## 13. Future Enhancements
 - Error fixes and more smooth transitions
 - Image privacy and image upload in cloud
 - Direct messaging between users
 - Photo albums/collages 
 - Real time notifications
+
